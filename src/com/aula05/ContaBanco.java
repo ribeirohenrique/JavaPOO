@@ -9,24 +9,30 @@ public class ContaBanco {
     private double saldo;
     private boolean status;
 
-    public ContaBanco(int numConta, String tipo, String dono) {
+    public ContaBanco(int numConta, String dono) {
         //todo Fazer um gerador de numero de conta
         this.numConta = numConta;
-        this.tipo = tipo;
+        this.tipo = "";
         this.dono = dono;
         this.saldo = 0.00;
         this.status = false;
     }
 
     public void abrirConta(){
-        this.status = true;
-        if (this.tipo == "CP"){
-            this.saldo = 150.00;
+        Scanner tipoConta = new Scanner(System.in);
+        System.out.print("Digite o tipo de conta que deseja abrir CP/CC: ");
+        String tipo = tipoConta.next();
+        if (tipo == "CP"){
+            this.tipo = "CP";
+            this.saldo += 150.00;
             System.out.println("Conta " + this.tipo + " aberta com sucesso! Saldo atual: " + this.saldo + " Reais.");
+            this.status = true;
         }
-        if (this.tipo == "CC"){
-            this.saldo = 50.00;
+        if (tipo == "CC"){
+            this.tipo = "CC";
+            this.saldo += 50.00;
             System.out.println("Conta " + this.tipo + " aberta com sucesso! Saldo atual: " + this.saldo + " Reais.");
+            this.status = true;
         }
     }
 
@@ -49,9 +55,8 @@ public class ContaBanco {
             Scanner deposito = new Scanner(System.in);
             System.out.print("Digite o valor que deseja depositar: ");
             double valorDeposito = deposito.nextDouble();
-            this.saldo += valorDeposito;
+            this.saldo =+ valorDeposito;
             System.out.println("Valor depositado com sucesso, saldo atual: " + this.saldo + " Reais.");
-            deposito.close();
         } else {
             System.out.println("Esta conta está fechada, para prosseguir é necessário reabrir.");
         }
@@ -66,7 +71,7 @@ public class ContaBanco {
             if (valorSaca > this.saldo){
                 System.out.println("Erro, saldo insuficiente, tente outro valor");
             } else {
-                this.saldo -= valorSaca;
+                this.saldo =- valorSaca;
                 System.out.println("Valor sacado com sucesso, saldo atual: " + this.saldo + " Reais.");
             }
         } else {
@@ -101,11 +106,42 @@ public class ContaBanco {
 
     public void menuSelecao (){
         Scanner selecao = new Scanner(System.in);
-        System.out.println("Menu de seleção");
-        System.out.print("O que deseja fazer: ");
-        int status = selecao.nextInt();
-        if (status == 1){
-            status();
+        while (true) {
+            System.out.println("Menu de seleção");
+            System.out.println("1 - Status da conta");
+            System.out.println("2 - Abrir nova conta");
+            System.out.println("3 - Fechar conta");
+            System.out.println("4 - Depositar");
+            System.out.println("5 - Sacar");
+            System.out.println("6 - Pagar valor mensal obrigatório");
+            System.out.print("O que deseja fazer: ");
+            int status = selecao.nextInt();
+            switch (status) {
+                case 1:
+                    status();
+                    System.out.println();
+                    break;
+                case 2:
+                    abrirConta();
+                    System.out.println();
+                    break;
+                case 3:
+                    fecharConta();
+                    System.out.println();
+                    break;
+                case 4:
+                    depositar();
+                    System.out.println();
+                    break;
+                case 5:
+                    sacar();
+                    System.out.println();
+                    break;
+                case 6:
+                    pagarMensal();
+                    System.out.println();
+                    break;
+                }
         }
     }
 
