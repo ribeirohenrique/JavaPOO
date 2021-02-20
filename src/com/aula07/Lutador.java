@@ -16,29 +16,17 @@ public class Lutador implements ControladorLutador {
         this.nacionalidade = nacionalidade;
         this.idade = idade;
         this.altura = altura;
-        this.peso = peso;
+        this.setPeso(peso); //ele atualiza o peso, mas nao faz a atualização pelo get
     }
 
     @Override
     public void apresentar(){
-
-        //Peso leve: < 65
-        //Peso medio: >= 65 && < 90
-        //Peso pesado: >= 90
-        if (this.getPeso() < 65) {
-            this.setCategoria("Peso Leve");
-        } else if (this.getPeso() >= 65 && this.getPeso() < 90) {
-            this.setCategoria("Peso Medio");
-        } else {
-            this.setCategoria("Peso Pesado");
-        }
-
         System.out.println("------- APRESENTAÇÃO -------");
         System.out.println("Lutador: " + this.getNome());
         System.out.println("Nacionalidade: " + this.getNacionalidade());
         System.out.println("Idade: " + this.getIdade());
         System.out.println("Altura: " + this.getAltura());
-        System.out.println("Peso: " + this.getPeso());
+        System.out.println("Peso: " + this.peso());
         System.out.println("Categoria: " + this.getCategoria());
         System.out.println("Vitórias: " + this.getVitorias() + " | Derrotas: " + this.getDerrotas() + " | Empates: " + this.getEmpates());
         System.out.println();
@@ -100,20 +88,34 @@ public class Lutador implements ControladorLutador {
         this.altura = altura;
     }
 
-    public double getPeso() {
+    public double peso() {
         return peso;
     }
 
     public void setPeso(double peso) {
         this.peso = peso;
+        this.setCategoria();
     }
 
     public String getCategoria() {
         return categoria;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    private void setCategoria() {
+        //Peso leve: < 65
+        //Peso medio: >= 65 && < 90
+        //Peso pesado: >= 90
+        if (this.peso() < 52.2) {
+            this.categoria = "Inválido";
+        } else if (this.peso() <= 70.3) {
+            this.categoria = "Peso Leve";
+        } else if (this.peso() <= 83.9) {
+            this.categoria = "Peso Medio";
+        } else if (this.peso() <= 120.2) {
+            this.categoria = "Peso Pesado";
+        } else {
+            this.categoria = "Inválido";
+        }
     }
 
     public int getVitorias() {
