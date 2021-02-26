@@ -2,14 +2,33 @@ package com.testes;
 
 import java.sql.*;
 
-public class InsertApp {
+public class DatabaseActions {
+    Database dbName;
+    Database tableName;
 
+    public Database getDbName() {
+        return dbName;
+    }
 
-    //Connect to the test.db database
-    //Return the Connection object
+    public void setDbName(Database dbName) {
+        this.dbName = dbName;
+    }
+
+    public Database getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(Database tableName) {
+        this.tableName = tableName;
+    }
+
+    /**
+     * Connect to the test.db database
+     * @return the Connection object
+     */
     private Connection connect() {
         // SQLite connection string
-        String url = "jdbc:sqlite:D:/Desenvolvimento/JavaPOO/db/dbTest.db";
+        String url = "jdbc:sqlite:D:/Desenvolvimento/JavaPOO/db/" + this.dbName.getDbName();
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
@@ -19,9 +38,16 @@ public class InsertApp {
         return conn;
     }
 
-    //Insert a new row into the warehouses table
+    /**
+     * Insert a new row into the warehouses table
+     *
+     * @param name
+     * @param capacity
+     */
     public void insert(String name, double capacity) {
-        String sql = "INSERT INTO warehouses(name,capacity) VALUES(?,?)";
+        System.out.println(tableName.getTableName());
+        String sql = "INSERT INTO " + tableName.getTableName() + "(name,capacity) VALUES(?,?)";
+        System.out.println("SQL Sentence: " + sql);
 
         try (Connection conn = this.connect();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -34,7 +60,7 @@ public class InsertApp {
     }
 
     public void selectAll(){
-        String sql = "SELECT id, name, capacity FROM warehouses";
+        String sql = "SELECT id, name, capacity FROM " + this.tableName.getTableName();
 
         try (Connection conn = this.connect();
              Statement stmt  = conn.createStatement();
@@ -50,17 +76,4 @@ public class InsertApp {
             System.out.println(e.getMessage());
         }
     }
-
-
-    public static void main(String[] args) {
-
-        InsertApp insertTest = new InsertApp();
-        // insert three new rows
-        insertTest.insert("Raw Materials", 3000);
-        insertTest.insert("Semifinished Goods", 4000);
-        insertTest.insert("Finished Goods", 5000);
-
-        insertTest.selectAll();
-    }
-
 }
