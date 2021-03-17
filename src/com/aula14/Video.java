@@ -55,7 +55,10 @@ public class Video implements AcoesVideo {
     }
 
     public void setAvaliacao(double avaliacao) {
-        this.avaliacao = avaliacao;
+        //Considera a média de acordo com a qtd de visualizacoes
+        int nova;
+        nova = (int) ((this.getAvaliacao() + avaliacao)/this.getViews());
+        this.avaliacao = nova;
     }
 
     public int getViews() {
@@ -80,5 +83,16 @@ public class Video implements AcoesVideo {
 
     public void setReproduzindo(boolean reproduzindo) {
         this.reproduzindo = reproduzindo;
+    }
+
+    @Override
+    public String toString() {
+        return "Video { " +
+                "titulo = '" + titulo + '\'' +
+                ", avaliacao = " + avaliacao +
+                ", views = " + views +
+                ", curtidas = " + curtidas +
+                ", reproduzindo = " + reproduzindo +
+                '}';
     }
 }

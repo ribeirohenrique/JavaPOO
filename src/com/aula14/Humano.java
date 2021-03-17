@@ -1,10 +1,17 @@
 package com.aula14;
-
-public class Humano {
+//Essa classe deve ser abstrata pq será somente a base para criar as outras
+public abstract class Humano {
     protected String nome;
     protected int idade;
     protected String sexo;
     protected double experiencia;
+
+    public Humano(String nome, int idade, String sexo) {
+        this.nome = nome;
+        this.idade = idade;
+        this.sexo = sexo;
+        this.experiencia = 0;
+    }
 
     protected void ganharExp(int qtdExp) {
         System.out.println("Você ganhou" + qtdExp +" pontos de experiência!");
@@ -41,5 +48,15 @@ public class Humano {
 
     public void setExperiencia(double experiencia) {
         this.experiencia = experiencia;
+    }
+
+    @Override
+    public String toString() {
+        return "Humano { " +
+                "nome = '" + nome + '\'' +
+                ", idade = " + idade +
+                ", sexo = '" + sexo + '\'' +
+                ", experiencia = " + experiencia +
+                '}';
     }
 }
